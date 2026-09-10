@@ -1,6 +1,6 @@
 from app.core.config import settings
 from app.services.llm.base import LLMProvider
-from app.services.llm.ollama import OllamaProvider
+
 
 def get_llm_provider() -> LLMProvider:
 
@@ -22,6 +22,8 @@ def get_llm_provider() -> LLMProvider:
         return GeminiProvider()
 
     if provider == "ollama":
+        from app.services.llm.ollama import OllamaProvider
+
         return OllamaProvider()
 
     raise ValueError(
