@@ -285,6 +285,8 @@ async def process_message(
                 ],
             )
         except Exception as exc:
+            import logging
+            logging.error("LLM Provider error: %s", exc, exc_info=True)
             provider_name = settings.llm_provider.lower().strip()
             if provider_name == "ollama":
                 answer = (
