@@ -1,3 +1,4 @@
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -6,6 +7,16 @@ class Settings(BaseSettings):
     app_env: str = "local"
 
     database_url: str = "postgresql+psycopg://syedamemonazahra@localhost:5432/ai_backend"
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def format_database_url(cls, v: str) -> str:
+        if isinstance(v, str):
+            if v.startswith("postgres://"):
+                return v.replace("postgres://", "postgresql+psycopg://", 1)
+            elif v.startswith("postgresql://") and "+psycopg" not in v:
+                return v.replace("postgresql://", "postgresql+psycopg://", 1)
+        return v
     cors_origins: str = "*"
     openai_api_key: str | None = None
     openai_base_url: str | None = None
