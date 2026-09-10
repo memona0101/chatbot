@@ -27,6 +27,14 @@ app.add_middleware(
 
 app.include_router(chat_router)
 
+@app.get("/")
+def root():
+    return {
+        "message": "AI Backend API is running",
+        "health": "/health",
+        "docs": "/docs"
+    }
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
